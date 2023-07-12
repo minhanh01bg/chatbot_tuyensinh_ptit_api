@@ -22,7 +22,7 @@ app.config['SECRET_KEY'] = 'secret!'
 # Path: /api
 @app.route('/api_dl', methods=['GET','POST'])
 def api_dl():
-    try:
+    # try:
         message = str(request.form.get('message'))
         print(message)
 
@@ -59,8 +59,8 @@ def api_dl():
         print(json_confidence)
         return jsonify(json_confidence)
     
-    except Exception as e:
-        return jsonify({'error': str(e)})
+    # except Exception as e:
+    #     return jsonify({'error': str(e)})
 
 
 @app.route('/api_ml', methods=['GET','POST'])
