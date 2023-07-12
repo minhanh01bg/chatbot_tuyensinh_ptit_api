@@ -13,8 +13,7 @@ import time
 from transformers import AutoTokenizer, AutoModel
 import joblib
 import shutil 
-tokenizer = AutoTokenizer.from_pretrained('vinai/phobert-base')
-model = AutoModel.from_pretrained('vinai/phobert-base')
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -22,7 +21,7 @@ app.config['SECRET_KEY'] = 'secret!'
 # Path: /api
 @app.route('/api_dl', methods=['GET','POST'])
 def api_dl():
-    try:
+    # try:
         message = str(request.form.get('message'))
         print(message)
 
@@ -31,6 +30,8 @@ def api_dl():
         
         word = message
         max_token_lenth = 256
+        tokenizer = AutoTokenizer.from_pretrained('vinai/phobert-base')
+        model = AutoModel.from_pretrained('vinai/phobert-base')
         encoded = tokenizer(word, return_tensors='pt', max_length=max_token_lenth, truncation=True,padding=True)
         embedding_vector = model(**encoded).pooler_output.detach().numpy()[0]
         # load model
@@ -59,8 +60,8 @@ def api_dl():
         print(json_confidence)
         return jsonify(json_confidence)
     
-    except Exception as e:
-        return jsonify({'error': str(e)})
+    # except Exception as e:
+    #     return jsonify({'error': str(e)})
 
 
 @app.route('/api_ml', methods=['GET','POST'])
